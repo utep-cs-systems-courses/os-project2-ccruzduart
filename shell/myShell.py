@@ -29,6 +29,7 @@ def readLine():
 
 def redirect(arg, symbol):
     if symbol == '<' and arg.count("<") == 1:
+        
         os.close(0)
         os.open(arg[arg.index(symbol)+1],os.O_RDONLY)
         os.set_inheritable(0,True)
@@ -106,7 +107,7 @@ while True:
     else:
         os.write(2,"$ ".encode())
 
-    args = readLine().strip().split(" ")
+    args = readLine().strip().split(' ')
 
     if args[0] == "":
         continue
@@ -142,11 +143,11 @@ while True:
             pipe(args)
             continue
         if '<' in args:
-            print("checking <")
             redirect(args,'<')
+            args = args[:1]
         if '>' in args:
-            print("checking >")
             redirect(args,'>')
+            args = args[:1]
 
         try:
             os.execve(args[0], args, os.environ)
